@@ -1,5 +1,5 @@
 package storage;
 
-public class Node {
-
+public class Node<T> {
+	private T data;
 }
