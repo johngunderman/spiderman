@@ -18,7 +18,9 @@ To add nodes to your graph:
 
 <code>
 Node n = new Node(String name, Object value);
+</code>
 
+<code>
 g.addNode(n);
 </code>
 
