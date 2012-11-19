@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\title{EECS 433 Proposal: Graph Databases}
+\author{John Gunderman\\
+		Matthew Varley\\
+		Umang Banugaria}
+\date{}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Problem Definition}
+Implement an in-memory graph database. The uses for an in-memory graph database include testing frameworks and high-performance computations.
+
+\section{Goals of Project}
+By the end of the term we aim to achieve the following:
+
+\begin{itemize}
+\item Implement a query-able graph datastore for general usage on the local machine.
+\item Given enough time, a server component could be constructed to allow off-site queries of the database.
+\item Implement a sensible in-memory storage solution, optimized for graph traversals. The storage API should be modular to allow for different back-ends to be implemented.
+\item Given enough time, on-disk storage solutions could be considered
+Implement a query API to allow searches based on node value and the relationships between nodes.
+\end{itemize}
+
+\section{Division of Work}
+
+John - Project Lead, Queries \\
+Matt - Storage \\
+Umang -  Queries \\
+
+\section{Papers}
+
+\subsection{Star}
+
+\cite{Star}
+
+\subsection{Cheng}
+
+\cite{Cheng}
+
+\subsection{Ma}
+
+\cite{Ma}
+
+\subsection{Sun}
+
+\cite{Sun}
+
+\subsection{Fan}
+
+\cite{Fan}
+
+\subsection{He}
+
+\cite{He}
+
+\bibliographystyle{IEEEtran}
+\bibliography{bib}
+
+\end{document}
