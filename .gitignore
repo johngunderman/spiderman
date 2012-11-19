@@ -1,6 +1,20 @@
 *.class
 
+#Tex byproducts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# Folders #
+src/.metadata/*
+bin/*
