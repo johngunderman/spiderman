@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{wrapfig}
-\title{EECS 433 Proposal: Graph Databases}
+\title{EECS 433 Project Progress: Graph Databases}
 \author{John Gunderman\\
 		Matthew Varley\\
 		Umang Banugaria}
@@ -28,19 +28,19 @@ By the end of the term we aim to achieve the following:
 Implement a query API to allow searches based on node value and the relationships between nodes.
 \end{itemize}
 
-\section{Division of Work}
+\section{Work Completed}
 
-John - Project Lead, Queries \\
-Matt - Storage \\
-Umang -  Queries \\
+We have specified all of the features we expect our project to have, and have defined most of the interfaces and some preliminary code. The work has been divided up between the team members, and is progressing smoothly.
 
-\section{Work so Far}
+\section{Timeline of Remaining Work}
 
-\subsection{Storage}
-
-\subsection{Query Processing}
-
-\section{Papers}
+\begin{tabular}{|l|l|}
+\hline
+Week of the 18th & Finish basic graph generation and query\\\hline
+Week of the 25th & Implement more advanced graph querying support\\\hline
+Week of the 2nd & Bug-fixes, final polish, and preparation of the final report\\\hline
+Week of the 9th & Preparation of the project presentation\\\hline
+\end{tabular}
 
 \subsection{Kasneci et al.}
 
@@ -65,6 +65,12 @@ This paper \cite{Fan} introduces a series of optimizations for querying graphs, 
 \subsection{He et al.}
 
 This paper\cite{He} introduces a declarative language for querying graph databases. For our project, we will not be implementing a general query language, rather we are following a programmatic access using an API for simplification. The paper does present several graph processing algorithms that we could use for designing the query evaluator.
+
+\section{Division of Work}
+
+John - Project Lead, Queries \\
+Varley - Storage \\
+Umang -  Queries \\
 
 \bibliographystyle{IEEEtran}
 \bibliography{bib}
