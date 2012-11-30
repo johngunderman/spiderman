@@ -2,7 +2,7 @@ package storage;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class Node<T> implements java.lang.Comparable {
+public class Node<T> implements java.lang.Comparable<Node<?>>{
 	private T data;
 	
 	// outgoing edges of relationships
@@ -63,25 +63,13 @@ public class Node<T> implements java.lang.Comparable {
 		return true;
 	}
 
-	/**
-	 * Returns -1 if object types don't match.
-	 * Returns 0 if Node data is equal.
-	 * Returns 1 if Node data is not equal.
-	 */
 	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		if (arg0 instanceof Node) {
-			Node n = (Node) arg0;
-			
-			if (this.getData().equals(n.getData())) {
-				return 0;
-			} else {
-				return 1;
-			}
+	public int compareTo(Node<?> o) {
+		if(this.getData().equals(o.getData())) {
+			return 0;
 		}
 		else {
-			return -1;
+			return 1;
 		}
 	}
 }
