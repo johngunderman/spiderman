@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Node<T> implements java.lang.Comparable {
 	private T data;
+	
 	// outgoing edges of relationships
 	protected ConcurrentSkipListSet<RelationshipHolder> exitRelations;
 	// incoming edges of relationships
@@ -14,6 +15,11 @@ public class Node<T> implements java.lang.Comparable {
 			throw new NullPointerException("The data to be stored was null");
 		}
 		this.data = data;
+		
+		exitRelations = new ConcurrentSkipListSet<RelationshipHolder>();
+		entranceRelations = new ConcurrentSkipListSet<RelationshipHolder>();
+
+		
 	}
 	
 	public T getData() {

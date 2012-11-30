@@ -14,6 +14,7 @@ public class Spiderman {
 		
 		Node<String> n2 = g.addNode("CWRU");
 		
+		g.addRelationship(new NamedRelationship("TAUGHT_AT"), Direction.Directed, n, n2);
 		
 	}
 	
