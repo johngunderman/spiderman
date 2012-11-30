@@ -1,9 +1,11 @@
 package storage;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import spiderman.Direction;
 import spiderman.Relationship;
@@ -16,6 +18,7 @@ import spiderman.Relationship;
 public class Graph {
 	private final Collection<Node<?>> nodes;
 	private final Set<RelationshipHolder> relationships;
+	private final Map<Relationship, Set<RelationshipHolder>> relationshipIndex = new ConcurrentHashMap<Relationship, Set<RelationshipHolder>>();
 	
 	/**
 	 * 
@@ -24,12 +27,12 @@ public class Graph {
 	public Graph(boolean unique) {
 		if(unique) {
 			this.nodes = new ConcurrentSkipListSet<Node<?>>();
-			this.relationships = new ConcurrentSkipListSet<RelationshipHolder>();
+			
 		}
 		else {
 			this.nodes = new CopyOnWriteArrayList<Node<?>>();
-			this.relationships = new ConcurrentSkipListSet<RelationshipHolder>();
 		}
+		this.relationships = new ConcurrentSkipListSet<RelationshipHolder>();
 	}
 	
 	/**
@@ -74,6 +77,12 @@ public class Graph {
 		}
 		RelationshipHolder holder = new RelationshipHolder(r, dir, origin, destination);
 		this.relationships.add(holder);
+		Set<RelationshipHolder> relops = this.relationshipIndex.get(r);
+		if(relops == null) {
+			relops = new ConcurrentSkipListSet<RelationshipHolder>();
+		}
+		relops.add(holder);
+		this.relationshipIndex.put(r, relops);
 	}
 	
 	public final <T,K> void addRelationship(final Relationship r, final Direction dir, final T originData, final K destData) {
@@ -88,5 +97,11 @@ public class Graph {
 		
 		RelationshipHolder holder = new RelationshipHolder(r, dir, origin, dest);
 		this.relationships.add(holder);
+		Set<RelationshipHolder> relops = this.relationshipIndex.get(r);
+		if(relops == null) {
+			relops = new ConcurrentSkipListSet<RelationshipHolder>();
+		}
+		relops.add(holder);
+		this.relationshipIndex.put(r, relops);
 	}
 }
