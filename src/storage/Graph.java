@@ -65,7 +65,27 @@ public class Graph {
 	 * @param destination
 	 */
 	public final void addRelationship(final Relationship r, final Direction dir, final Node<?> origin, final Node<?> destination) {
+		if(!this.nodes.contains(origin)) {
+			this.nodes.add(origin);
+		}
+		if(!this.nodes.contains(destination)) {
+			this.nodes.add(destination);
+		}
 		RelationshipHolder holder = new RelationshipHolder(r, dir, origin, destination);
+		this.relationships.add(holder);
+	}
+	
+	public final <T,K> void addRelationship(final Relationship r, final Direction dir, final T originData, final K destData) {
+		Node<T> origin = new Node<T>(originData);
+		Node<K> dest = new Node<K>(destData);
+		if(!this.nodes.contains(origin)) {
+			this.nodes.add(origin);
+		}
+		if(!this.nodes.contains(dest)) {
+			this.nodes.add(dest);
+		}
+		
+		RelationshipHolder holder = new RelationshipHolder(r, dir, origin, dest);
 		this.relationships.add(holder);
 	}
 }
