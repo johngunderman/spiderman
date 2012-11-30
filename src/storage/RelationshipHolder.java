@@ -40,11 +40,11 @@ public class RelationshipHolder {
 		this.origin = origin;
 	}
 	
-	public Node<?> getDesitination() {
+	public Node<?> getDestination() {
 		return destination;
 	}
 	
-	public void setDesitination(Node<?> desitination) {
+	public void setDestination(Node<?> desitination) {
 		this.destination = desitination;
 	}
 
