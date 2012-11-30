@@ -1,0 +1,1 @@
+* We may be hurting our ConcurrentSkipListSet performance by not implementing a compareTo() with a "correct" less than/greater than test

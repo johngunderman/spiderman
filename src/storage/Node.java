@@ -1,13 +1,25 @@
 package storage;
 
-public class Node<T> {
+import java.util.concurrent.ConcurrentSkipListSet;
+
+public class Node<T> implements java.lang.Comparable {
 	private T data;
 	
+	// outgoing edges of relationships
+	protected ConcurrentSkipListSet<RelationshipHolder> exitRelations;
+	// incoming edges of relationships
+	protected ConcurrentSkipListSet<RelationshipHolder> entranceRelations;
+	
 	public Node(T data) {
-		if(this.data == null) {
+		if(data == null) {
 			throw new NullPointerException("The data to be stored was null");
 		}
 		this.data = data;
+		
+		exitRelations = new ConcurrentSkipListSet<RelationshipHolder>();
+		entranceRelations = new ConcurrentSkipListSet<RelationshipHolder>();
+
+		
 	}
 	
 	public T getData() {
@@ -49,5 +61,27 @@ public class Node<T> {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Returns -1 if object types don't match.
+	 * Returns 0 if Node data is equal.
+	 * Returns 1 if Node data is not equal.
+	 */
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		if (arg0 instanceof Node) {
+			Node n = (Node) arg0;
+			
+			if (this.getData().equals(n.getData())) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		else {
+			return -1;
+		}
 	}
 }
