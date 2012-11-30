@@ -3,7 +3,7 @@ package storage;
 import spiderman.Direction;
 import spiderman.Relationship;
 
-public class RelationshipHolder {
+public class RelationshipHolder implements java.lang.Comparable {
 	private Relationship relationship;
 	private Direction direction;
 	private Node<?> origin;
@@ -109,6 +109,17 @@ public class RelationshipHolder {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		
+		if (this.equals(o)) {
+			return 0;
+		}
+		else {
+			return 1;
+		}		
 	}
 
 }
