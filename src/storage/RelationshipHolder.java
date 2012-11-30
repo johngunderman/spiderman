@@ -14,6 +14,10 @@ public class RelationshipHolder {
 		this.direction = dir;
 		this.origin = origin;
 		this.destination = dest;
+		
+		//TODO: Remove the references when the relationship is destroyed
+		origin.entranceRelations.add(this);
+		dest.exitRelations.add(this);
 	}
 	
 	public Relationship getRelationship() {

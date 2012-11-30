@@ -1,7 +1,13 @@
 package storage;
 
+import java.util.concurrent.ConcurrentSkipListSet;
+
 public class Node<T> implements java.lang.Comparable {
 	private T data;
+	// outgoing edges of relationships
+	protected ConcurrentSkipListSet<RelationshipHolder> exitRelations;
+	// incoming edges of relationships
+	protected ConcurrentSkipListSet<RelationshipHolder> entranceRelations;
 	
 	public Node(T data) {
 		if(data == null) {
