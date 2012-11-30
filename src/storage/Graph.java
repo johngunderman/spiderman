@@ -52,9 +52,10 @@ public class Graph {
 	 * 
 	 * @param value
 	 */
-	public final <T> void addNode(final T value) {
+	public final <T> Node<T> addNode(final T value) {
 		Node<T> newNode = new Node<T>(value);
 		this.nodes.add(newNode);
+		return newNode;
 	}
 	
 	/**
