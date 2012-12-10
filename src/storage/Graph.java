@@ -103,4 +103,20 @@ public class Graph {
 		relops.add(holder);
 		this.relationshipIndex.put(r, relops);
 	}
+	
+	public <T> T removeNode(final Node<T> ndoe) {
+		return null;
+	}
+	
+	public <T> T removeNode(final T data) {
+		return null;
+	}
+	
+	public void removeRelationship(final RelationshipHolder holder) {
+		
+	}
+	
+	public <T,K> void removeRelationship(T data1, K data2, Relationship relat, Direction dir) {
+		
+	}
 }

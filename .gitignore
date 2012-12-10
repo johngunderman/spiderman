@@ -1,4 +1,6 @@
 *.class
+.classpath
+.project
 
 #Tex byproducts
 *.aux
@@ -18,3 +20,4 @@
 # Folders #
 src/.metadata/*
 bin/*
+.metadata/*
