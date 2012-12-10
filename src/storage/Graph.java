@@ -27,7 +27,6 @@ public class Graph {
 	public Graph(boolean unique) {
 		if(unique) {
 			this.nodes = new ConcurrentSkipListSet<Node<?>>();
-			
 		}
 		else {
 			this.nodes = new CopyOnWriteArrayList<Node<?>>();
