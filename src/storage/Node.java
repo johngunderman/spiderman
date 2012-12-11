@@ -6,9 +6,9 @@ public class Node<T> implements java.lang.Comparable<Node<?>>{
 	private T data;
 	
 	// outgoing edges of relationships
-	protected ConcurrentSkipListSet<RelationshipHolder> exitRelations;
+	public ConcurrentSkipListSet<RelationshipHolder> exitRelations;
 	// incoming edges of relationships
-	protected ConcurrentSkipListSet<RelationshipHolder> entranceRelations;
+	public ConcurrentSkipListSet<RelationshipHolder> entranceRelations;
 	
 	public Node(T data) {
 		if(data == null) {

@@ -1,5 +1,8 @@
 package query;
 
-public class QueryPlan {
+import java.util.Iterator;
 
+public class QueryPlan {
+	Search iter = null;
+	
 }
