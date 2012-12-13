@@ -1,0 +1,78 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\title{EECS 433 Project Report: Spiderman - An In-memory Graph Databases}
+\author{John Gunderman\\
+		Matthew Varley\\
+		Umang Banugaria}
+\date{}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Problem Definition}
+Implement an in-memory graph database. The uses for an in-memory graph database include testing frameworks and high-performance computations.
+
+\section{Goals of Project}
+By the end of the term we aim to achieve the following:
+
+\begin{itemize}
+\item Implement a query-able graph datastore for general usage on the local machine.
+\item Given enough time, a server component could be constructed to allow off-site queries of the database.
+\item Implement a sensible in-memory storage solution, optimized for graph traversals. The storage API should be modular to allow for different back-ends to be implemented.
+\item Given enough time, on-disk storage solutions could be considered
+Implement a query API to allow searches based on node value and the relationships between nodes.
+\end{itemize}
+
+\section{Work Completed}
+
+We have specified all of the features we expect our project to have, and have defined most of the interfaces and some preliminary code. The work has been divided up between the team members, and is progressing smoothly.
+
+\section{Timeline of Remaining Work}
+
+\begin{tabular}{|l|l|}
+\hline
+Week of the 18th & Finish basic graph generation and query\\\hline
+Week of the 25th & Implement more advanced graph querying support\\\hline
+Week of the 2nd & Bug-fixes, final polish, and preparation of the final report\\\hline
+Week of the 9th & Preparation of the project presentation\\\hline
+\end{tabular}
+
+\subsection{Kasneci et al.}
+
+This paper\cite{Star} introduces a new algorithm, the STAR algorithm, which solves the Steiner tree problem in better time than any previous solutions: O(log(n)). The Steiner tree problem is a problem in graph theory that attempts to find the minimum tree visiting all the nodes in the graph, under certain constraints. The STAR algorithm as introduced in the paper improves upon the BANKS I algorithm, described in the paper. The STAR algorithm has a two stage process. It first scans the graph and creates a spanning tree. It then prunes the tree according to certain heuristics. After describing the algorithm, the paper compares its performance to other algorithms in the field. It concludes that the STAR algorithm has better performance in almost all cases.
+
+\subsection{Cheng et al.}
+
+This paper\cite{Cheng} develops techniques for efficient reachability queries. The algorithm that the authors develop is called k-reach, and is based around k-hop reachability queries, which are queries where we want to find if a node is reachable within k hops. The k-reach algorithm is heavily detailed in the paper. In summary, they build an index based on vertex cover, and use it to assist in querying. The paper concludes that the research it discusses may be the first exploring k-hop reachability queries. The algorithm it presents is meant to serve as a simple solution to that problem, which should be easily modifiable for future performance gains.
+
+\subsection{Ma et al.}
+
+This paper \cite{Ma} proposes the method of strong simulation for the problem of graph pattern matching.  Graph pattern matching is typically described using subgraph isomorphism, however this is an NP-complete problem.  In order to find matches more efficiently, graph simulation is used which has a cubic-time complexity.  Strong simulation is an extension of conventional graph simulation in which duality and locality properties are enforced to obtain better matching results while still maintaining the cubic-time complexity of conventional graph simulation.  Both of these conditions help preserve the topology of data graphs and eliminate excessive matches.
+
+\subsection{Sun et al.}
+
+This paper \cite{Sun} describes an approach to support subgraph matching without the use of structure indices.  The authors point out that all other subgraph matching algorithms rely on indices which can quickly become infeasible for larger graphs as they scale up to one billion nodes due to the superlinear time and space required for index construction.  To avoid using indices, the proposed algorithm would rely on efficient in-memory graph exploration.  Since all the data must be stored in memory, it is split up between machines in a cluster using Trinity, a memory cloud.  With the optimizations and parallel version described in the paper, it was demonstrated that the proposed algorithm could scale up to billion node graphs and it was left as future work to test it on even larger graphs.
+
+\subsection{Fan}
+
+This paper \cite{Fan} introduces a series of optimizations for querying graphs, especially in the context of a social network. I will not describe the algorithms as the paper is very algorithmic in nature. Many of the optimizations out of the scope of this project, but the interfaces provide an idea as to what this database should optimize for, and how users expect to be able query a graph database as well as what a typical query might look like.
+
+\subsection{He et al.}
+
+This paper\cite{He} introduces a declarative language for querying graph databases. For our project, we will not be implementing a general query language, rather we are following a programmatic access using an API for simplification. The paper does present several graph processing algorithms that we could use for designing the query evaluator.
+
+\section{Division of Work}
+
+John - Project Lead, Queries \\
+Varley - Storage \\
+Umang -  Queries \\
+
+\bibliographystyle{IEEEtran}
+\bibliography{bib}
+
+\end{document}
