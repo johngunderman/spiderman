@@ -72,4 +72,9 @@ public class Node<T> implements java.lang.Comparable<Node<?>>{
 			return 1;
 		}
 	}
+	
+	public void removeRelationship(RelationshipHolder h) {
+		this.entranceRelations.remove(h);
+		this.exitRelations.remove(h);
+	}
 }
