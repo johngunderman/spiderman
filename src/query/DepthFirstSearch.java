@@ -11,20 +11,20 @@ import storage.RelationshipHolder;
 
 public class DepthFirstSearch implements Search 
 {
-	Node currentNode;
+	Node<?> currentNode;
 	int currentDepth;
 	int maxDepth;
-	Map<Node, List<Node>> openChildren;  //children of a parent that have not been visited yet
-	Map<Node, Boolean> visited;  //false if parent has been visited, true if node has been visited
-	Map<Node, Node> parentNodes;  //map from child to parent
+	Map<Node<?>, List<Node<?>>> openChildren;  //children of a parent that have not been visited yet
+	Map<Node<?>, Boolean> visited;  //false if parent has been visited, true if node has been visited
+	Map<Node<?>, Node<?>> parentNodes;  //map from child to parent
 
-	public DepthFirstSearch(Node root, int maxDepth)
+	public DepthFirstSearch(Node<?> root, int maxDepth)
 	{
 		currentNode = root;
 		currentDepth = 0;
 		this.maxDepth = maxDepth;
-		visited = new HashMap<Node, Boolean>();
-		parentNodes = new HashMap<Node, Node>();
+		visited = new HashMap<Node<?>, Boolean>();
+		parentNodes = new HashMap<Node<?>, Node<?>>();
 		
 		visitNewNode(root);
 	}
@@ -43,15 +43,14 @@ public class DepthFirstSearch implements Search
 	}
 
 	@Override
-	public Node getNext() 
+	public Node<?> getNext() 
 	{
-		Node nodeToReturn = currentNode;
 		if (currentNode != null)
 		{
 			visited.put(currentNode, true);
 			if (currentDepth < maxDepth)
 			{
-				List<Node> children = openChildren.get(currentNode);
+				List<Node<?>> children = openChildren.get(currentNode);
 				if (children != null && children.size() != 0)
 				{
 					currentNode = children.remove(0);
@@ -88,14 +87,14 @@ public class DepthFirstSearch implements Search
 		return null;
 	}
 
-	public void visitNewNode(Node parent)
+	public void visitNewNode(Node<?> parent)
 	{
-		List children = new LinkedList<Node>();
+		List<Node<?>> children = new LinkedList<Node<?>>();
 		openChildren.put(parent, children);
-		Iterator iter = parent.exitRelations.iterator();
+		Iterator<RelationshipHolder> iter = parent.exitRelations.iterator();
 		while (iter.hasNext())
 		{
-			Node next = (Node) iter.next();
+			Node<?> next =  iter.next().getDestination();
 			children.add(next);
 			parentNodes.put(next, parent);
 			visited.put(next, false);

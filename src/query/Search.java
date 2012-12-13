@@ -5,5 +5,5 @@ import storage.Node;
 public interface Search {
 
 	public boolean hasNext();
-	public Node getNext();
+	public Node<?> getNext();
 }

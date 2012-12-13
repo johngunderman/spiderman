@@ -7,16 +7,17 @@ import java.util.Map;
 import java.util.Queue;
 
 import storage.Node;
+import storage.RelationshipHolder;
 
 public class BreadthFirstSearch implements Search {
 	
-	Map<Node, Integer> nodeDepth;
-	Queue<Node> queue;
+	Map<Node<?>, Integer> nodeDepth;
+	Queue<Node<?>> queue;
 	
-	public BreadthFirstSearch(Node root, int depth)
+	public BreadthFirstSearch(Node<?> root, int depth)
 	{
-		nodeDepth = new HashMap<Node, Integer>();
-		queue = new LinkedList<Node>();
+		nodeDepth = new HashMap<Node<?>, Integer>();
+		queue = new LinkedList<Node<?>>();
 		
 		nodeDepth.put(root, 0);
 		queue.add(root);
@@ -36,7 +37,7 @@ public class BreadthFirstSearch implements Search {
 	}
 
 	@Override
-	public Node getNext() 
+	public Node<?> getNext() 
 	{
 		if (queue.isEmpty())
 		{	
@@ -44,12 +45,12 @@ public class BreadthFirstSearch implements Search {
 		}
 		else
 		{
-			Node nodeToReturn = queue.poll();
+			Node<?> nodeToReturn = queue.poll();
 			int depth = nodeDepth.get(nodeToReturn);
-			Iterator iter = nodeToReturn.exitRelations.iterator();
+			Iterator<RelationshipHolder> iter = nodeToReturn.exitRelations.iterator();
 			while (iter.hasNext())
 			{
-				Node next = (Node) iter.next();
+				Node<?> next = iter.next().getDestination();
 				if (!nodeDepth.containsKey(next))
 				{
 					nodeDepth.put(next,  depth+1);
