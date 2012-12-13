@@ -6,31 +6,32 @@ import query.BreadthFirstSearch;
 import query.DepthFirstSearch;
 import query.QueryPlan;
 
-public class Node<T> implements java.lang.Comparable<Node<?>>{
+public class Node<T> implements java.lang.Comparable<Node<?>> {
 	private T data;
-	
+
 	// outgoing edges of relationships
 	public ConcurrentSkipListSet<RelationshipHolder> exitRelations;
 	// incoming edges of relationships
 	public ConcurrentSkipListSet<RelationshipHolder> entranceRelations;
-	
+
 	public Node(T data) {
-		if(data == null) {
+		if (data == null) {
 			throw new NullPointerException("The data to be stored was null");
 		}
 		this.data = data;
-		
+
 		exitRelations = new ConcurrentSkipListSet<RelationshipHolder>();
 		entranceRelations = new ConcurrentSkipListSet<RelationshipHolder>();
 
-		
 	}
-	
+
 	public T getData() {
 		return this.data;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -41,7 +42,9 @@ public class Node<T> implements java.lang.Comparable<Node<?>>{
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -60,8 +63,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>>{
 			if (other.data != null) {
 				return false;
 			}
-		}
-		else if (!data.equals(other.data)) {
+		} else if (!data.equals(other.data)) {
 			return false;
 		}
 		return true;
@@ -69,31 +71,31 @@ public class Node<T> implements java.lang.Comparable<Node<?>>{
 
 	@Override
 	public int compareTo(Node<?> o) {
-		if(this.getData().equals(o.getData())) {
+		if (this.getData().equals(o.getData())) {
 			return 0;
-		}
-		else {
+		} else {
 			return 1;
 		}
 	}
-	
-	public QueryPlan breadthFirst()
-	{
+
+	public void removeRelationship(RelationshipHolder h) {
+		this.entranceRelations.remove(h);
+		this.exitRelations.remove(h);
+	}
+
+	public QueryPlan breadthFirst() {
 		return new QueryPlan(new BreadthFirstSearch(this, Integer.MAX_VALUE));
 	}
-	
-	public QueryPlan breadthFirst(int maxDepth)
-	{
+
+	public QueryPlan breadthFirst(int maxDepth) {
 		return new QueryPlan(new BreadthFirstSearch(this, maxDepth));
 	}
-	
-	public QueryPlan depthFirst()
-	{
+
+	public QueryPlan depthFirst() {
 		return new QueryPlan(new DepthFirstSearch(this, Integer.MAX_VALUE));
 	}
-	
-	public QueryPlan depthFirst(int maxDepth)
-	{
+
+	public QueryPlan depthFirst(int maxDepth) {
 		return new QueryPlan(new DepthFirstSearch(this, maxDepth));
 	}
 }
