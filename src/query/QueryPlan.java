@@ -15,13 +15,13 @@ public class QueryPlan {
 		this.iter = iter;
 	}
 	
-	public List<Node> evaluate(Evaluable eval)
+	public List<Node<?>> evaluate(Evaluable eval)
 	{
-		List<Node> results = new LinkedList<Node>();
+		List<Node<?>> results = new LinkedList<Node<?>>();
 		
 		while(iter.hasNext())
 		{
-			Node next = iter.getNext();
+			Node<?> next = iter.getNext();
 			if (eval.evaluateNode(next))
 			{
 				results.add(next);
