@@ -2,6 +2,10 @@ package storage;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import query.BreadthFirstSearch;
+import query.DepthFirstSearch;
+import query.QueryPlan;
+
 public class Node<T> implements java.lang.Comparable<Node<?>>{
 	private T data;
 	
@@ -71,5 +75,25 @@ public class Node<T> implements java.lang.Comparable<Node<?>>{
 		else {
 			return 1;
 		}
+	}
+	
+	public QueryPlan breadthFirst()
+	{
+		return new QueryPlan(new BreadthFirstSearch(this, Integer.MAX_VALUE));
+	}
+	
+	public QueryPlan breadthFirst(int maxDepth)
+	{
+		return new QueryPlan(new BreadthFirstSearch(this, maxDepth));
+	}
+	
+	public QueryPlan depthFirst()
+	{
+		return new QueryPlan(new DepthFirstSearch(this, Integer.MAX_VALUE));
+	}
+	
+	public QueryPlan depthFirst(int maxDepth)
+	{
+		return new QueryPlan(new DepthFirstSearch(this, maxDepth));
 	}
 }
