@@ -1,6 +1,7 @@
 *.class
 .classpath
 .project
+*.pdf
 
 #Tex byproducts
 *.aux
@@ -21,3 +22,4 @@
 src/.metadata/*
 bin/*
 .metadata/*
+doc/
