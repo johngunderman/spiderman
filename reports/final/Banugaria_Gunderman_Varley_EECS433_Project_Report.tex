@@ -5,6 +5,7 @@
 \usepackage{float}
 \usepackage{wrapfig}
 \usepackage{url}
+\linespread{1.2}
 \title{EECS 433 Project Report: Spiderman - An In-memory Graph Databases}
 \author{John Gunderman\\
 		Matthew Varley\\
@@ -104,12 +105,15 @@ We aimed to complete the following:
 
 \subsection{Division of Work}
 
-John - Project Lead, Queries \\
-Varley - Storage API, Relationship Definition\\
-Umang -  Queries \\
+\begin{itemize}
+\item John - Project Lead, Queries
+\item Varley - Storage API, Relationship Definition
+\item Umang -  Queries
+\end{itemize}
 
-\section{Results}
+\section{Conclusions}
 
+This project has successfully achieved the desired goal: to provide an easy to use in-memory graph database. We have designed a system that is sufficiently modular as to allow for easy extensibility. As a stand-alone piece of software, it also operates well as a local graph database for temporary analytical queries.  We hope that this software will be useful to researchers in this field who are interested in studying techniques involving graph databases.
 
 \bibliographystyle{IEEEtran}
 \bibliography{bib}
