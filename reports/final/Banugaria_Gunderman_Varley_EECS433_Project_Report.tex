@@ -66,7 +66,9 @@ The storage engine, shown in Figure \ref{fig:storage}, currently implements an i
 
 Nodes and relations of the graph are stored in thread-safe, skip-list sets designed for concurrent access inside of an instantiated graph object. This allows multiple operations to be performed on the graph by multiple threads in a safe manner. The sets operate on a “Copy On Write” model where every thread that comes by will receive a common pointer, but will only use a local version (handled invisibly) if the underlying data storage is changed by the query. Once the changed version is committed, any changes are automatically and invisibly merged back into the primary data store. This structure greatly increases the speed of both queries and modifications while preventing conflicts.
 
-A node is stored as a generic container for any type of information. It also contains the set of incoming and outgoing relationships. This allows easy adjacency queries as well as relationship maintenance. Overall, the storage engine for the graph is opaque to the user and can only be accessed through graph and node queries.
+A node is stored as a generic container for any type of information. It also contains the set of incoming and outgoing relationships. This allows easy adjacency queries as well as relationship maintenance. For queries that have an indeterminate starting point, the graph maintains separate indices for both the data and the relationships that are stored. This allows constant time access to any data and as well as to list of all relations of a certain type.
+
+Overall, the storage engine for the graph is opaque to the user and can only be accessed through graph and node queries, but is modular and able to replaced by different back-ends if that is desired.
 
 \begin{figure}[H]
 \centering
