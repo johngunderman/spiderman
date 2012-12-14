@@ -1,155 +1,129 @@
 package storage;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import spiderman.Direction;
 import spiderman.Relationship;
 
 /**
+ * A graph is the central data structure for spiderman. It represents data in
+ * the form of a graph, which is a series of nodes connected by
+ * edges/relationships. Both the vertices and the edges can contains arbitrary
+ * data.
  * 
- * @author varley
+ * @author Varley
  * 
  */
-public class Graph {
-	private final Map<Object, List<Node<?>>> dataIndex;
-	private final Collection<Node<?>> nodes;
-	private final Set<RelationshipHolder> relationships;
-	private final Map<String, Set<RelationshipHolder>> relationshipIndex;
-	private final boolean unique;
+public interface Graph {
 
 	/**
+	 * This returns all the nodes contains within the graph. Implementations
+	 * should take care that the edits to this collection will not edit the
+	 * graph (and thus violate any invariants).
 	 * 
-	 * @param unique
+	 * @return All the nodes in the graph in an unmodifiable collection.
 	 */
-	public Graph(boolean unique) {
-		this.unique = unique;
-		if (unique) {
-			this.nodes = new ConcurrentSkipListSet<Node<?>>();
-		} else {
-			this.nodes = new CopyOnWriteArrayList<Node<?>>();
-		}
-		this.relationships = new ConcurrentSkipListSet<RelationshipHolder>();
-		this.relationshipIndex = new ConcurrentHashMap<String, Set<RelationshipHolder>>(
-				100);
-		this.dataIndex = new ConcurrentHashMap<Object, List<Node<?>>>(100);
-	}
+	public Collection<Node<?>> getNodes();
 
 	/**
+	 * This returns all the relationships contains within the graph.
+	 * Implementations should take care that the edits to this collection will
+	 * not edit the graph (and thus violate any invariants).
 	 * 
-	 * @return
+	 * @return All the relationships in the graph in an unmodifiable collection.
 	 */
-	Collection<Node<?>> getNodes() {
-		return this.nodes;
-	}
+	public Set<RelationshipHolder> getRelationships();
 
 	/**
-	 * 
-	 * @return
-	 */
-	Set<RelationshipHolder> getRelationships() {
-		return this.relationships;
-	}
-
-	/**
+	 * This will add a new node to the graph.
 	 * 
 	 * @param value
+	 *            The node that contains the passed in value.
 	 */
-	public final <T> Node<T> addNode(final T value) {
-		Node<T> newNode = new Node<T>(value);
-		if (this.unique && this.nodes.contains(newNode)) {
-			throw new IllegalStateException(value.toString()
-					+ " is already in this unique value graph");
-		}
-		this.nodes.add(newNode);
-		List<Node<?>> list = this.dataIndex.get(value);
-		if (list == null) {
-			list = new CopyOnWriteArrayList<Node<?>>();
-		}
-		list.add(newNode);
-		this.dataIndex.put(value, list);
-		return newNode;
-	}
-
-	public final List<Node<?>> getNodes(final Object value) {
-		List<Node<?>> list = this.dataIndex.get(value);
-		if (list == null) {
-			return Collections.emptyList();
-		}
-		return list;
-	}
+	public <T> Node<T> addNode(T value);
 
 	/**
+	 * This method is used when the container node is needed, but only the value
+	 * is known. This will return all the nodes that equal the passed in
+	 * parameter as defined by {@link Object#equals(Object)}.
+	 * 
+	 * <p>
+	 * 
+	 * If the graph enforces uniqueness, there should be only one element in the
+	 * returned list.
+	 * 
+	 * <p>
+	 * 
+	 * If there is no container that contains the parameter, an empty list
+	 * should be returned.
+	 * 
+	 * @param value
+	 *            The raw data that corresponds to a list of containing nodes in
+	 *            the Graph
+	 * 
+	 * @return The list of nodes that contain the value passed in.
+	 */
+	public List<Node<?>> getNodes(Object value);
+
+	/**
+	 * This will add a relationship to the graph. The relationship will go from
+	 * the specified origin to the destination. Queries should be aware of
+	 * undirected edges as implementations make no guarantee of placing an
+	 * undirected edge in the outgoing and incoming list of edges.
+	 * 
+	 * <p>
+	 * 
+	 * If either the origin or destination are not in the graph, this method
+	 * should throw an {@link IllegalArgumentException}.
 	 * 
 	 * @param r
+	 *            The relationship to store.
 	 * @param dir
+	 *            The direction the relationship is in.
 	 * @param origin
+	 *            The origin node.
 	 * @param destination
+	 *            The destination node.
+	 * 
+	 * @thorws IllegalArgumentException If the origin or destination is not in
+	 *         the graph.
 	 */
-	public final void addRelationship(final Relationship r,
-			final Direction dir, final Node<?> origin, final Node<?> destination) {
-		if (!this.nodes.contains(origin)) {
-			throw new IllegalArgumentException(
-					"The graph does not contain the specified origin node "
-							+ origin.toString());
-		}
-		if (!this.nodes.contains(destination)) {
-			throw new IllegalArgumentException(
-					"The graph does not contain the specified destination node "
-							+ destination.toString());
-		}
-		RelationshipHolder holder = new RelationshipHolder(r, dir, origin,
-				destination);
-		this.relationships.add(holder);
-		Set<RelationshipHolder> relops = this.relationshipIndex.get(r
-				.identifier());
-		if (relops == null) {
-			relops = new ConcurrentSkipListSet<RelationshipHolder>();
-		}
-		relops.add(holder);
-		this.relationshipIndex.put(r.identifier(), relops);
-	}
+	public void addRelationship(Relationship r, Direction dir, Node<?> origin,
+			Node<?> destination);
 
-	public void removeNode(final Node<?> node) {
-		// Remove relationships that contain this node
-		Collection<RelationshipHolder> rels = new LinkedList<RelationshipHolder>();
-		rels.addAll(node.entranceRelations);
-		rels.addAll(node.exitRelations);
-		for (RelationshipHolder h : rels) {
-			// Remove from relationship index
-			String rel = h.getRelationship().identifier();
-			Set<RelationshipHolder> list = this.relationshipIndex.get(rel);
-			list.remove(h);
-			// Remove from both nodes
-			h.getOrigin().removeRelationship(h);
-			h.getDestination().removeRelationship(h);
-			// Remove from set of relationships
-			this.relationships.remove(h);
-		}
-		List<Node<?>> nodes = this.dataIndex.get(node.getData());
-		for (Iterator<Node<?>> it = nodes.iterator(); it.hasNext();) {
-			if (node == it.next()) {
-				it.remove();
-				break;
-			}
-		}
-		// Remove node
-		this.nodes.remove(node);
-	}
+	/**
+	 * This will remove the node from the graph. As a side effect, all
+	 * relationships that the parameter is a part of will be removed from the
+	 * graph and the node on the other side of the edge.
+	 * 
+	 * @param node
+	 *            The node to be removed.
+	 */
+	public void removeNode(Node<?> node);
 
-	public void removeRelationship(final RelationshipHolder holder) {
-		holder.getOrigin().removeRelationship(holder);
-		holder.getDestination().removeRelationship(holder);
-		this.relationshipIndex.get(holder.getRelationship().identifier())
-				.remove(holder);
-		this.relationships.remove(holder);
-	}
+	/**
+	 * This will remove the specified relationship from the graph and from the
+	 * adjacency lists of both nodes.
+	 * 
+	 * <p>
+	 * 
+	 * If the specified relationship is not present, implementations have the
+	 * option to fail silently without modifying the graph or to throw an
+	 * exception. Implementations that throw an exception should document this
+	 * clearly.
+	 * 
+	 * @param r
+	 *            The relationship to store.
+	 * @param dir
+	 *            The direction the relationship is in.
+	 * @param origin
+	 *            The origin node.
+	 * @param destination
+	 *            The destination node.
+	 */
+	public void removeRelationship(Relationship r, Direction dir,
+			Node<?> origin, Node<?> destination);
+
 }

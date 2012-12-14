@@ -1,9 +1,8 @@
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import spiderman.Direction;
 import spiderman.NamedRelationship;
+import storage.BasicGraph;
 import storage.Graph;
 import storage.Node;
 
@@ -13,7 +12,7 @@ public class DBTest {
 	@Test
 	public void test() 
 	{
-		Graph g = new Graph(true);
+		Graph g = new BasicGraph(true);
 		
 		//create Neo
 		Person neo = new Person();

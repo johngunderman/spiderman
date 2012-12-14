@@ -1,19 +1,46 @@
 package storage;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import query.BreadthFirstSearch;
 import query.DepthFirstSearch;
 import query.QueryPlan;
 
+/**
+ * A node is a container that is stored in a {@link Graph}. It encapsulates the
+ * data to be stored as well as storing the adjacency lists for graph links.
+ * 
+ * @author Varley
+ * 
+ * @param <T>
+ *            The type of the data to be contained. Ideally the type should
+ *            override the Java default implementation of
+ *            {@link Object#equals(Object)} and {@link Object#hashCode()}.
+ */
 public class Node<T> implements java.lang.Comparable<Node<?>> {
 	private T data;
 
-	// outgoing edges of relationships
-	public ConcurrentSkipListSet<RelationshipHolder> exitRelations;
-	// incoming edges of relationships
-	public ConcurrentSkipListSet<RelationshipHolder> entranceRelations;
+	/**
+	 * This contains all relationships that have this node as the origin. The
+	 * set implementation is designed for concurrent access.
+	 */
+	public Set<RelationshipHolder> exitRelations;
 
+	/**
+	 * This contains all relationships that have this node as the destination.
+	 * The set implementation is designed for concurrent access.
+	 */
+	public Set<RelationshipHolder> entranceRelations;
+
+	/**
+	 * Make a container that will store the data passed in.
+	 * 
+	 * @param data
+	 *            The data to be stored
+	 * 
+	 * @thows NullPointerException If the parameter is <code>null</code>.
+	 */
 	public Node(T data) {
 		if (data == null) {
 			throw new NullPointerException("The data to be stored was null");
@@ -25,15 +52,14 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 
 	}
 
+	/**
+	 * 
+	 * @return The data stored in this container.
+	 */
 	public T getData() {
 		return this.data;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -78,9 +104,14 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 		}
 	}
 
-	public void removeRelationship(RelationshipHolder h) {
-		this.entranceRelations.remove(h);
-		this.exitRelations.remove(h);
+	/**
+	 * Removes the relationship
+	 * 
+	 * @param holder The relationship to remove
+	 */
+	void removeRelationship(RelationshipHolder holder) {
+		this.entranceRelations.remove(holder);
+		this.exitRelations.remove(holder);
 	}
 
 	public QueryPlan breadthFirst() {

@@ -8,7 +8,7 @@ public class Spiderman {
 	// example usage of the spiderman library
 	public static void main(String[] argv) {
 		
-		Graph g = new Graph(true);
+		BasicGraph g = new BasicGraph(true);
 
 		Node<String> n = g.addNode("EECS 433");
 		

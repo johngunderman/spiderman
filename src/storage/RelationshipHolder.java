@@ -3,55 +3,74 @@ package storage;
 import spiderman.Direction;
 import spiderman.Relationship;
 
-public class RelationshipHolder implements java.lang.Comparable<RelationshipHolder> {
+/**
+ * A simple container object that encapsulates the components of a relationship.
+ * 
+ * @author Varley
+ * 
+ */
+public class RelationshipHolder implements
+		java.lang.Comparable<RelationshipHolder> {
 	private Relationship relationship;
 	private Direction direction;
 	private Node<?> origin;
 	private Node<?> destination;
-	
-	public RelationshipHolder(Relationship r, Direction dir, Node<?> origin, Node<?> dest) {
+
+	/**
+	 * This constructor creates the container and it adds itself to the proper
+	 * relationship in the origin and destination.
+	 * 
+	 * @param r
+	 * @param dir
+	 * @param origin
+	 * @param dest
+	 */
+	public RelationshipHolder(Relationship r, Direction dir, Node<?> origin,
+			Node<?> dest) {
 		this.relationship = r;
 		this.direction = dir;
 		this.origin = origin;
 		this.destination = dest;
-		
+
 		origin.entranceRelations.add(this);
 		dest.exitRelations.add(this);
 	}
-	
+
 	public Relationship getRelationship() {
 		return relationship;
 	}
-	
+
 	public void setRelationship(Relationship relationship) {
 		this.relationship = relationship;
 	}
-	
+
 	public Direction getDirection() {
 		return direction;
 	}
-	
+
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
-	
+
 	public Node<?> getOrigin() {
 		return origin;
 	}
-	
+
 	public void setOrigin(Node<?> origin) {
 		this.origin = origin;
 	}
-	
+
 	public Node<?> getDestination() {
 		return destination;
 	}
-	
+
 	public void setDestination(Node<?> desitination) {
 		this.destination = desitination;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -68,7 +87,9 @@ public class RelationshipHolder implements java.lang.Comparable<RelationshipHold
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -112,10 +133,9 @@ public class RelationshipHolder implements java.lang.Comparable<RelationshipHold
 
 	@Override
 	public int compareTo(RelationshipHolder o) {
-		if(this.equals(o)) {
+		if (this.equals(o)) {
 			return 0;
-		}
-		else {
+		} else {
 			return 1;
 		}
 	}
