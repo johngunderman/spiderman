@@ -1,5 +1,6 @@
 package query;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,9 +9,9 @@ import storage.Node;
 import evaluator.Evaluable;
 
 public class QueryPlan {
-	private Search iter = null;
+	private Iterator<Node<?>> iter = null;
 	
-	public QueryPlan(Search iter)
+	public QueryPlan(Iterator<Node<?>> iter)
 	{
 		this.iter = iter;
 	}
@@ -21,7 +22,7 @@ public class QueryPlan {
 		
 		while(iter.hasNext())
 		{
-			Node<?> next = iter.getNext();
+			Node<?> next = iter.next();
 			if (eval.evaluateNode(next))
 			{
 				results.add(next);

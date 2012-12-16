@@ -9,7 +9,7 @@ import java.util.Map;
 import storage.Node;
 import storage.RelationshipHolder;
 
-public class DepthFirstSearch implements Search 
+public class DepthFirstSearch implements Iterator<Node<?>> 
 {
 	Node<?> currentNode;
 	int currentDepth;
@@ -43,7 +43,7 @@ public class DepthFirstSearch implements Search
 	}
 
 	@Override
-	public Node<?> getNext() 
+	public Node<?> next() 
 	{
 		if (currentNode != null)
 		{
@@ -99,5 +99,11 @@ public class DepthFirstSearch implements Search
 			parentNodes.put(next, parent);
 			visited.put(next, false);
 		}
+	}
+
+	@Override
+	public void remove() 
+	{
+		
 	}
 }

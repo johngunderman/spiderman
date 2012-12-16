@@ -16,4 +16,6 @@ public interface Relationship {
 	 * @return
 	 */
 	public String identifier();
+	
+	public boolean equals(Object o);
 }

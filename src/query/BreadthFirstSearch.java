@@ -9,7 +9,7 @@ import java.util.Queue;
 import storage.Node;
 import storage.RelationshipHolder;
 
-public class BreadthFirstSearch implements Search {
+public class BreadthFirstSearch implements Iterator<Node<?>>{
 	
 	Map<Node<?>, Integer> nodeDepth;
 	Queue<Node<?>> queue;
@@ -37,7 +37,7 @@ public class BreadthFirstSearch implements Search {
 	}
 
 	@Override
-	public Node<?> getNext() 
+	public Node<?> next() 
 	{
 		if (queue.isEmpty())
 		{	
@@ -60,6 +60,12 @@ public class BreadthFirstSearch implements Search {
 			
 			return nodeToReturn;
 		}
+	}
+
+	@Override
+	public void remove() 
+	{
+			
 	}
 
 }

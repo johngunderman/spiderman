@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import query.QueryPlan;
+
 import spiderman.Direction;
 import spiderman.Relationship;
 
@@ -172,5 +174,42 @@ public class BasicGraph implements Graph {
 		this.relationshipIndex.get(holder.getRelationship().identifier())
 				.remove(holder);
 		this.relationships.remove(holder);
+	}
+	
+	public QueryPlan hasRealtion(Relationship r, Direction d)
+	{
+		Iterator<Node<?>> iter = nodes.iterator();
+		List<Node<?>> list = new LinkedList<Node<?>>();
+		
+		while (iter.hasNext())
+		{
+			boolean added = false;
+			Node<?> next = (Node<?>) iter.next();
+			Iterator<RelationshipHolder> relations = next.exitRelations.iterator();
+			while(relations.hasNext())
+			{
+				if (((RelationshipHolder)relations.next()).getRelationship().equals(r))
+				{
+					list.add(next);
+					added = true;
+					break;
+				}
+			}
+			if (d == Direction.Undirected && !added)
+			{
+				relations = next.entranceRelations.iterator();
+				while(relations.hasNext())
+				{
+					if (((RelationshipHolder)relations.next()).getRelationship().equals(r))
+					{
+						list.add(next);
+						added = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		return new QueryPlan(list.iterator());
 	}
 }
