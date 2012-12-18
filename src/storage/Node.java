@@ -97,11 +97,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 
 	@Override
 	public int compareTo(Node<?> o) {
-		if (this.getData().equals(o.getData())) {
-			return 0;
-		} else {
-			return 1;
-		}
+		return this.hashCode()-o.hashCode();
 	}
 
 	/**
