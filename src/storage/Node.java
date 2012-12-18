@@ -111,7 +111,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 	}
 
 	public QueryPlan breadthFirst() {
-		return new QueryPlan(new BreadthFirstSearch(this, Integer.MAX_VALUE));
+		return breadthFirst(Integer.MAX_VALUE);
 	}
 
 	public QueryPlan breadthFirst(int maxDepth) {
@@ -119,7 +119,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 	}
 
 	public QueryPlan depthFirst() {
-		return new QueryPlan(new DepthFirstSearch(this, Integer.MAX_VALUE));
+		return depthFirst(Integer.MAX_VALUE);
 	}
 
 	public QueryPlan depthFirst(int maxDepth) {

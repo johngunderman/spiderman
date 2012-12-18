@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import query.QueryPlan;
+
 import spiderman.Direction;
 import spiderman.Relationship;
 
@@ -125,5 +127,18 @@ public interface Graph {
 	 */
 	public void removeRelationship(Relationship r, Direction dir,
 			Node<?> origin, Node<?> destination);
+
+	/**
+	 * 
+	 * This will return in the query plan all nodes that are contained in the
+	 * parameters. If the direction specified is directed, only the destination
+	 * node is included in the result.
+	 * 
+	 * @param r
+	 *            The relationship that is wanted
+	 * @return Returns a plan that contains all nodes that fit the parameters
+	 *         specified.
+	 */
+	public QueryPlan hasRealtion(Relationship r);
 
 }

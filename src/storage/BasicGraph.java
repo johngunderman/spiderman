@@ -2,6 +2,7 @@ package storage;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import query.QueryPlan;
-
 import spiderman.Direction;
 import spiderman.Relationship;
 
@@ -32,7 +32,7 @@ public class BasicGraph implements Graph {
 
 	/**
 	 * Constructs a graph designed for concurrent access, insertions, and
-	 * queries. Defaults uniquness to <code>false</code>
+	 * queries. Defaults uniqueness to <code>false</code>
 	 */
 	public BasicGraph() {
 		this(false);
@@ -175,41 +175,20 @@ public class BasicGraph implements Graph {
 				.remove(holder);
 		this.relationships.remove(holder);
 	}
-	
-	public QueryPlan hasRealtion(Relationship r, Direction d)
-	{
-		Iterator<Node<?>> iter = nodes.iterator();
-		List<Node<?>> list = new LinkedList<Node<?>>();
+
+	@Override
+	public QueryPlan hasRealtion(Relationship r) {
+		Set<Node<?>> list = new HashSet<Node<?>>();
+
+		Set<RelationshipHolder> holders = this.relationshipIndex.get(r.identifier());
 		
-		while (iter.hasNext())
-		{
-			boolean added = false;
-			Node<?> next = (Node<?>) iter.next();
-			Iterator<RelationshipHolder> relations = next.exitRelations.iterator();
-			while(relations.hasNext())
-			{
-				if (((RelationshipHolder)relations.next()).getRelationship().equals(r))
-				{
-					list.add(next);
-					added = true;
-					break;
-				}
-			}
-			if (d == Direction.Undirected && !added)
-			{
-				relations = next.entranceRelations.iterator();
-				while(relations.hasNext())
-				{
-					if (((RelationshipHolder)relations.next()).getRelationship().equals(r))
-					{
-						list.add(next);
-						added = true;
-						break;
-					}
-				}
+		for(RelationshipHolder holder : holders) {
+			list.add(holder.getDestination());
+			if(holder.getDirection() == Direction.Undirected) {
+				list.add(holder.getOrigin());
 			}
 		}
-		
+
 		return new QueryPlan(list.iterator());
 	}
 }
