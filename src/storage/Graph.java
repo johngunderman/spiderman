@@ -139,6 +139,6 @@ public interface Graph {
 	 * @return Returns a plan that contains all nodes that fit the parameters
 	 *         specified.
 	 */
-	public QueryPlan hasRealtion(Relationship r);
+	public QueryPlan hasRelation(Relationship r);
 
 }

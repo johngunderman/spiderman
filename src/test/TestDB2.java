@@ -51,8 +51,6 @@ public class TestDB2 {
 		g.addRelationship(new NamedRelationship("LIVES_IN"), Direction.Directed, hank, chicago);
 		g.addRelationship(new NamedRelationship("LIVES_IN"), Direction.Directed, frank, chicago);
 		
-		
-
 
 
 		

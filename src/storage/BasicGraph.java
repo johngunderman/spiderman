@@ -177,7 +177,7 @@ public class BasicGraph implements Graph {
 	}
 
 	@Override
-	public QueryPlan hasRealtion(Relationship r) {
+	public QueryPlan hasRelation(Relationship r) {
 		Set<Node<?>> list = new HashSet<Node<?>>();
 
 		Set<RelationshipHolder> holders = this.relationshipIndex.get(r.identifier());
