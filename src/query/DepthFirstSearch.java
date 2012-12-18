@@ -25,6 +25,7 @@ public class DepthFirstSearch implements Iterator<Node<?>>
 		this.maxDepth = maxDepth;
 		visited = new HashMap<Node<?>, Boolean>();
 		parentNodes = new HashMap<Node<?>, Node<?>>();
+		openChildren = new HashMap<Node<?>, List<Node<?>>>();
 		
 		visitNewNode(root);
 	}

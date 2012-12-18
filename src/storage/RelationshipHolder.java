@@ -32,8 +32,8 @@ public class RelationshipHolder implements
 		this.origin = origin;
 		this.destination = dest;
 
-		origin.entranceRelations.add(this);
-		dest.exitRelations.add(this);
+		origin.exitRelations.add(this);
+		dest.entranceRelations.add(this);
 	}
 
 	public Relationship getRelationship() {

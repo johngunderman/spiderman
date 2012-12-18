@@ -13,6 +13,7 @@ public class BreadthFirstSearch implements Iterator<Node<?>>{
 	
 	Map<Node<?>, Integer> nodeDepth;
 	Queue<Node<?>> queue;
+	int maxDepth = 0;
 	
 	public BreadthFirstSearch(Node<?> root, int depth)
 	{
@@ -21,6 +22,8 @@ public class BreadthFirstSearch implements Iterator<Node<?>>{
 		
 		nodeDepth.put(root, 0);
 		queue.add(root);
+		
+		maxDepth = depth;
 	}
 
 	@Override
@@ -54,7 +57,10 @@ public class BreadthFirstSearch implements Iterator<Node<?>>{
 				if (!nodeDepth.containsKey(next))
 				{
 					nodeDepth.put(next,  depth+1);
-					queue.add(next);
+					if (depth+1 <= maxDepth)
+					{
+						queue.add(next);
+					}
 				}
 			}
 			
