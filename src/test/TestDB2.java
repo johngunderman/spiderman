@@ -1,25 +1,18 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import query.QueryPlan;
 import query.ResultSet;
-
-import evaluator.Evaluable;
-
 import spiderman.Direction;
 import spiderman.NamedRelationship;
 import storage.BasicGraph;
 import storage.Graph;
 import storage.Node;
+import evaluator.Evaluable;
 
 public class TestDB2 {
 
@@ -81,13 +74,11 @@ public class TestDB2 {
 
 			@Override
 			public <T> boolean evaluateNode(T data) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 
 			@Override
 			public boolean evaluateNode(Node<?> data) {
-				// TODO Auto-generated method stub
 				if (data.hasOutgoingNeighbor("Chicago", lives_in)) {
 					return true;
 				}

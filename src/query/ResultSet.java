@@ -7,6 +7,11 @@ import storage.Node;
 
 public class ResultSet extends LinkedList<Node<?>> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -894398872550152465L;
+
 	public ResultSet hasIncomingNeighbor(Node<?> n, Relationship r) {
 		ResultSet results = new ResultSet();
 		

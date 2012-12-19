@@ -1,6 +1,5 @@
 package storage;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -131,7 +130,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 	
 	
 	// if relationship is null, ignore it.
-	public <T> boolean hasOutgoingNeighbor(T data, Relationship r) {
+	public <V> boolean hasOutgoingNeighbor(V data, Relationship r) {
 		// TODO Auto-generated method stub
 		for (RelationshipHolder rh : this.exitRelations) {
 			if ((data == null || rh.getDestination().getData().equals(data))
@@ -143,7 +142,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 		return false;
 	}
 	
-	public <T> boolean hasIncomingNeighbor(T data, Relationship r) {
+	public <V> boolean hasIncomingNeighbor(V data, Relationship r) {
 		for (RelationshipHolder rh : this.entranceRelations) {
 			if ((data == null || rh.getOrigin().getData().equals(data))
 					&& (r == null 
