@@ -16,9 +16,9 @@ public class QueryPlan {
 		this.iter = iter;
 	}
 	
-	public List<Node<?>> evaluate(Evaluable eval)
+	public ResultSet evaluate(Evaluable eval)
 	{
-		List<Node<?>> results = new LinkedList<Node<?>>();
+		ResultSet results = new ResultSet();
 		
 		while(iter.hasNext())
 		{

@@ -185,7 +185,7 @@ public class BasicGraph implements Graph {
 		for(RelationshipHolder holder : holders) {
 			list.add(holder.getOrigin());
 			if(holder.getDirection() == Direction.Undirected) {
-				list.add(holder.getDestination());
+				list.add(holder.getOrigin());
 			}
 		}
 

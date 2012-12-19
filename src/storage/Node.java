@@ -1,11 +1,13 @@
 package storage;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import query.BreadthFirstSearch;
 import query.DepthFirstSearch;
 import query.QueryPlan;
+import query.ResultSet;
 import spiderman.Relationship;
 
 /**
@@ -132,7 +134,7 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 	public <T> boolean hasOutgoingNeighbor(T data, Relationship r) {
 		// TODO Auto-generated method stub
 		for (RelationshipHolder rh : this.exitRelations) {
-			if (rh.getDestination().getData().equals(data)
+			if ((data == null || rh.getDestination().getData().equals(data))
 					&& (r == null 
 						|| r.identifier().equals(rh.getRelationship().identifier()))) {
 				return true;
@@ -143,12 +145,25 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 	
 	public <T> boolean hasIncomingNeighbor(T data, Relationship r) {
 		for (RelationshipHolder rh : this.entranceRelations) {
-			if (rh.getOrigin().getData().equals(data)
+			if ((data == null || rh.getOrigin().getData().equals(data))
 					&& (r == null 
 						|| r.identifier().equals(rh.getRelationship().identifier()))) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	// if we are directed, we only search among the outbound edges
+	public ResultSet getNeighborAlongRelation(Relationship r) {
+		// TODO Auto-generated method stub
+		ResultSet rs = new ResultSet();
+		
+		for (RelationshipHolder rh : this.exitRelations) {
+			if (rh.getRelationship().equals(r)) {
+				rs.add(rh.getDestination());
+			}
+		}
+		return rs;
 	}
 }

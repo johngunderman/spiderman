@@ -34,6 +34,12 @@ public class RelationshipHolder implements
 
 		origin.exitRelations.add(this);
 		dest.entranceRelations.add(this);
+		
+		if (dir == Direction.Undirected) {
+			origin.entranceRelations.add(this);
+			dest.exitRelations.add(this);
+		}
+		
 	}
 
 	public Relationship getRelationship() {

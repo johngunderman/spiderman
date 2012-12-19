@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import query.QueryPlan;
+import query.ResultSet;
+
 import evaluator.Evaluable;
 
 import spiderman.Direction;
@@ -49,6 +52,7 @@ public class TestDB2 {
 		Node<String> molly = g.addNode("molly");
 		Node<String> sam = g.addNode("sam");
 		Node<String> nyc = g.addNode("NYC");
+		Node<String> carol = g.addNode("Carol");
 		
 		final NamedRelationship hates = new NamedRelationship("HATES");
 		final NamedRelationship dating = new NamedRelationship("DATING");
@@ -68,11 +72,12 @@ public class TestDB2 {
 		g.addRelationship(lives_in, Direction.Directed, hank, chicago);
 		g.addRelationship(lives_in, Direction.Directed, frank, chicago);
 		g.addRelationship(lives_in, Direction.Directed, bill, nyc);
+		g.addRelationship(dating, Direction.Undirected, carol, mike);
 		
 		
-		
+						
 		// this query returns anyone who is dating someone who lives in chicago.
-		List<Node<?>> residents = g.hasRelation(lives_in).evaluate(new Evaluable() {
+		ResultSet residents = g.hasRelation(lives_in).evaluate(new Evaluable() {
 
 			@Override
 			public <T> boolean evaluateNode(T data) {
@@ -83,7 +88,6 @@ public class TestDB2 {
 			@Override
 			public boolean evaluateNode(Node<?> data) {
 				// TODO Auto-generated method stub
-				System.out.println(data.getData());
 				if (data.hasOutgoingNeighbor("Chicago", lives_in)) {
 					return true;
 				}
@@ -92,12 +96,15 @@ public class TestDB2 {
 			
 		});
 
+		// hasOutgoingNeighbor for result sets queries all nodes in the set and compiles the results
+		ResultSet results = residents.getNeighborAlongRelation(dating);
 		
-		System.out.println("Results:");
+		System.out.println("Anyone who is dating someone living in Chicago:");
 		
-		for (Node<?> n : residents) {
+		for (Node<?> n : results) {
 			System.out.println(n.getData());
 		}
+		
 		
 
 
