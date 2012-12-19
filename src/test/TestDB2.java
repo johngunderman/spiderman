@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,26 +46,33 @@ public class TestDB2 {
 		Node<String> mike = g.addNode("Mike");
 		Node<String> chicago = g.addNode("Chicago");
 		Node<String> sally = g.addNode("Sally");
+		Node<String> molly = g.addNode("molly");
+		Node<String> sam = g.addNode("sam");
+		Node<String> nyc = g.addNode("NYC");
 		
-		NamedRelationship hates = new NamedRelationship("HATES");
-		NamedRelationship dating = new NamedRelationship("DATING");
-		NamedRelationship employs = new NamedRelationship("EMPLOYS");
-		NamedRelationship leases_to = new NamedRelationship("LEASES_TO");
-		NamedRelationship lives_in = new NamedRelationship("LIVES_IN");
+		final NamedRelationship hates = new NamedRelationship("HATES");
+		final NamedRelationship dating = new NamedRelationship("DATING");
+		final NamedRelationship employs = new NamedRelationship("EMPLOYS");
+		final NamedRelationship leases_to = new NamedRelationship("LEASES_TO");
+		final NamedRelationship lives_in = new NamedRelationship("LIVES_IN");
 
 
 
 		
 		g.addRelationship(hates, Direction.Directed, frank, bill);
 		g.addRelationship(dating, Direction.Undirected, bill, sally);
+		g.addRelationship(dating, Direction.Undirected, sam, molly);
 		g.addRelationship(employs, Direction.Directed, sally, hank);
 		g.addRelationship(leases_to, Direction.Directed, hank, mike);
 		g.addRelationship(lives_in, Direction.Directed, mike, chicago);
 		g.addRelationship(lives_in, Direction.Directed, hank, chicago);
 		g.addRelationship(lives_in, Direction.Directed, frank, chicago);
+		g.addRelationship(lives_in, Direction.Directed, bill, nyc);
 		
 		
-		g.hasRelation(hates).evaluate(new Evaluable() {
+		
+		// this query returns anyone who is dating someone who lives in chicago.
+		List<Node<?>> residents = g.hasRelation(lives_in).evaluate(new Evaluable() {
 
 			@Override
 			public <T> boolean evaluateNode(T data) {
@@ -74,10 +83,22 @@ public class TestDB2 {
 			@Override
 			public boolean evaluateNode(Node<?> data) {
 				// TODO Auto-generated method stub
+				System.out.println(data.getData());
+				if (data.hasOutgoingNeighbor("Chicago", lives_in)) {
+					return true;
+				}
 				return false;
 			}
 			
 		});
+
+		
+		System.out.println("Results:");
+		
+		for (Node<?> n : residents) {
+			System.out.println(n.getData());
+		}
+		
 
 
 		

@@ -1,13 +1,13 @@
 package spiderman;
 
-public class NamedRelationship implements Relationship {
+public class NamedRelationship implements Relationship, Comparable<NamedRelationship> {
 
 	private String name;
 	
 	public NamedRelationship(String name) {
 		this.name = name;
 	}
-
+	
 	@Override
 	public String identifier() {
 		return name;
@@ -24,5 +24,10 @@ public class NamedRelationship implements Relationship {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public int compareTo(NamedRelationship o) {
+		return this.identifier().compareTo(o.identifier());
 	}
 }

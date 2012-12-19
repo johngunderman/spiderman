@@ -183,9 +183,9 @@ public class BasicGraph implements Graph {
 		Set<RelationshipHolder> holders = this.relationshipIndex.get(r.identifier());
 		
 		for(RelationshipHolder holder : holders) {
-			list.add(holder.getDestination());
+			list.add(holder.getOrigin());
 			if(holder.getDirection() == Direction.Undirected) {
-				list.add(holder.getOrigin());
+				list.add(holder.getDestination());
 			}
 		}
 

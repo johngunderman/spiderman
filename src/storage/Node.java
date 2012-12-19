@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import query.BreadthFirstSearch;
 import query.DepthFirstSearch;
 import query.QueryPlan;
+import spiderman.Relationship;
 
 /**
  * A node is a container that is stored in a {@link Graph}. It encapsulates the
@@ -124,5 +125,30 @@ public class Node<T> implements java.lang.Comparable<Node<?>> {
 
 	public QueryPlan depthFirst(int maxDepth) {
 		return new QueryPlan(new DepthFirstSearch(this, maxDepth));
+	}
+	
+	
+	// if relationship is null, ignore it.
+	public <T> boolean hasOutgoingNeighbor(T data, Relationship r) {
+		// TODO Auto-generated method stub
+		for (RelationshipHolder rh : this.exitRelations) {
+			if (rh.getDestination().getData().equals(data)
+					&& (r == null 
+						|| r.identifier().equals(rh.getRelationship().identifier()))) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public <T> boolean hasIncomingNeighbor(T data, Relationship r) {
+		for (RelationshipHolder rh : this.entranceRelations) {
+			if (rh.getOrigin().getData().equals(data)
+					&& (r == null 
+						|| r.identifier().equals(rh.getRelationship().identifier()))) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
